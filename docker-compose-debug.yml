@@ -1,0 +1,40 @@
+services:
+  keepalived:
+    image: ${KA_IMAGE:-osixia/keepalived:2.0.20}
+    container_name: ${KA_CONTAINER_NAME:-keepalived}
+    restart: "no"
+    entrypoint: ["tail","-f","/dev/null"]
+    # Joins the network namespace of the nginx container directly
+    networks:
+      shared_bridge:  
+      vlan010_net:
+        ipv4_address: ${KA_VLAN010}
+      vlan100_net:
+        ipv4_address: ${KA_VLAN100}
+      vlan200_net:
+        ipv4_address: ${KA_VLAN200}
+      # vlan400_net:
+      #   ipv4_address: ${KA_VLAN400}
+    cap_add:
+      - NET_ADMIN
+      - NET_BROADCAST
+      - NET_RAW
+    volumes:
+      - ${KA_CFG:-./vol/keepalived.conf}:/usr/local/etc/keepalived/keepalived.conf:ro
+
+networks:
+  shared_bridge:
+    name: ${BRIDGE_NAME}
+    external: true
+  vlan010_net:
+    name: ${VLAN010_NAME}
+    external: true
+  vlan100_net:
+    name: ${VLAN100_NAME}
+    external: true
+  vlan200_net:
+    name: ${VLAN200_NAME}
+    external: true
+  # vlan400_net:
+  #   name: ${VLAN400_NAME}
+  #   external: true
