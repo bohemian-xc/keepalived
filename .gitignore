@@ -20,8 +20,8 @@ coverage/
 *.tsbuildinfo
 
 # Ignore all files and folders in the vol folder
-# vol/
-# vol/**
+vol/
+vol/**
 
 # Ignore dev-container configuration files
 .devcontainer/
