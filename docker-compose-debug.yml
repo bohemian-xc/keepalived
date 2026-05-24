@@ -1,9 +1,11 @@
+version: '3.8'
 services:
   keepalived:
+    restart: "no"
+    platform: linux/amd64
+    entrypoint: ["tail", "-f", "/dev/null"]
     image: ${KA_IMAGE:-osixia/keepalived:2.0.20}
     container_name: ${KA_CONTAINER_NAME:-keepalived}
-    restart: "no"
-    entrypoint: ["tail","-f","/dev/null"]
     # Joins the network namespace of the nginx container directly
     networks:
       shared_bridge:  
