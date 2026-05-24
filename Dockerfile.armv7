@@ -1,0 +1,14 @@
+FROM arm32v7/alpine:3.18
+
+RUN apk add --no-cache \
+    keepalived \
+    iproute2 \
+    iputils
+
+# Ensure config directory exists (compose mounts config here)
+RUN mkdir -p /usr/local/etc/keepalived /var/run/keepalived
+RUN ln -s /usr/local/etc/keepalived /etc/keepalived || true
+
+VOLUME ["/usr/local/etc/keepalived"]
+
+CMD ["keepalived", "-n", "-D", "-f", "/usr/local/etc/keepalived/keepalived.conf"]
