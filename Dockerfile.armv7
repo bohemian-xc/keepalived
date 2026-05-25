@@ -4,7 +4,6 @@ RUN apk add --no-cache \
     keepalived \
     iproute2 \
     iputils \
-    arping \
     netcat-openbsd \
     bash
 
