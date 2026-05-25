@@ -1,16 +1,31 @@
 services:
   keepalived:
+    build:
+      context: .
+      dockerfile: Dockerfile.armv7
     image: ${KA_IMAGE:-osixia/keepalived:2.0.20}
     container_name: ${KA_CONTAINER_NAME:-keepalived}
     restart: always
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - ${HEALTHCHECK_CMD:-nslookup google.com}
+      interval: ${HEALTHCHECK_INT:-30s}
+      timeout: ${HEALTHCHECK_TOT:-10s}
+      retries: ${HEALTHCHECK_RTS:-3}
+      start_period: ${HEALTHCHECK_STP:-30s}
     # Joins the network namespace of the nginx container directly
     networks:
       shared_bridge:  
+        priority: 1000
       vlan010_net:
+        priority: 900
         ipv4_address: ${KA_VLAN010}
       vlan100_net:
+        priority: 800
         ipv4_address: ${KA_VLAN100}
       vlan200_net:
+        priority: 700
         ipv4_address: ${KA_VLAN200}
       # vlan400_net:
       #   ipv4_address: ${KA_VLAN400}
