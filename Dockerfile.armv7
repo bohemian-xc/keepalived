@@ -3,7 +3,10 @@ FROM arm32v7/alpine:3.18
 RUN apk add --no-cache \
     keepalived \
     iproute2 \
-    iputils
+    iputils \
+    arping \
+    netcat-openbsd \
+    bash
 
 # Ensure config directory exists (compose mounts config here)
 RUN mkdir -p /usr/local/etc/keepalived /var/run/keepalived
