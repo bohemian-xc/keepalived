@@ -6,7 +6,6 @@ services:
     image: ${KA_IMAGE:-osixia/keepalived:2.0.20}
     container_name: ${KA_CONTAINER_NAME:-keepalived}
     restart: always
-    entrypoint: ["tail", "-f", "/dev/null"]
     # Define the healthcheck to perform.
     healthcheck:
       test:

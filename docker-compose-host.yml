@@ -7,7 +7,6 @@ services:
     image: ${KA_IMAGE}
     container_name: ${KA_CONTAINER_NAME:-keepalived}
     restart: always
-    entrypoint: ["tail", "-f", "/dev/null"]
     # Define the healthcheck to perform.
     healthcheck:
       test:
