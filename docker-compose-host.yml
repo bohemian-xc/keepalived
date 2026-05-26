@@ -10,7 +10,9 @@ services:
     entrypoint: ["tail", "-f", "/dev/null"]
     # Define the healthcheck to perform.
     healthcheck:
-      test: ["CMD-SHELL", ${HEALTHCHECK_CMD:-nslookup google.com}]
+      test:
+        - "CMD-SHELL"
+        - ${HEALTHCHECK_CMD:-nslookup google.com}
       interval: ${HEALTHCHECK_INT:-30s}
       timeout: ${HEALTHCHECK_TOT:-10s}
       retries: ${HEALTHCHECK_RTS:-3}
