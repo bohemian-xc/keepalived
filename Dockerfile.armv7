@@ -7,7 +7,6 @@ RUN apk add --no-cache \
     iputils \
     netcat-openbsd \
     bash \
-#    busybox-syslogd \
     logrotate
 
 # Ensure config and log directories exist (compose may mount config here)

@@ -3,9 +3,18 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.armv7
-    image: ${KA_IMAGE:-osixia/keepalived:2.0.20}
+    image: ${KA_IMAGE}
     container_name: ${KA_CONTAINER_NAME:-keepalived}
     restart: always
+    # Load variables from env file and pass explicit runtime envs to container
+    # env_file:
+    #   - ./secrets/keepalived/docker-01.env
+    environment:
+      KEEPALIVED_OPTS: "${KEEPALIVED_OPTS:--n -l -D -f /usr/local/etc/keepalived/keepalived.conf}"
+      KEEPALIVED_LOG_FILE: "${KEEPALIVED_LOG_FILE:-/var/log/keepalived/keepalived.log}"
+      LOGROTATE_INTERVAL: "${LOGROTATE_INTERVAL:-86400}"
+      LOGROTATE_ROTATE: "${LOGROTATE_ROTATE:-7}"
+      LOGROTATE_COMPRESS: "${LOGROTATE_COMPRESS:-true}"
     # Define the healthcheck to perform.
     healthcheck:
       test:
@@ -38,10 +47,11 @@ services:
       #     com.docker.network.endpoint.ifname: ${KA_VLAN400_ETH:-eth-400}
     cap_add:
       - NET_ADMIN
-      - NET_BROADCAST
       - NET_RAW
+      - NET_BROADCAST
     volumes:
-      - ${KA_CFG:-./vol/keepalived.conf}:/usr/local/etc/keepalived/keepalived.conf:ro
+      - ${KA_VOL_CFG:-./vol/keepalived.conf}:/usr/local/etc/keepalived/keepalived.conf:ro
+      - ${KA_VOL_LOG:-./vol/log/}:/var/log/keepalived/:rw
 
 networks:
   shared_bridge:
