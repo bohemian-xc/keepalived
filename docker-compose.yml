@@ -27,23 +27,23 @@ services:
     # Joins the network namespace
     networks:
       shared_bridge:  
-        labels:
+        driver_opts:
           com.docker.network.endpoint.ifname: ${KA_BRIDGE_ETH:-eth-shared}
       vlan010_net:
         ipv4_address: ${KA_VLAN010}
-        labels:
+        driver_opts:
           com.docker.network.endpoint.ifname: ${KA_VLAN010_ETH:-eth-010}
       vlan100_net:
         ipv4_address: ${KA_VLAN100}
-        labels:
+        driver_opts:
           com.docker.network.endpoint.ifname: ${KA_VLAN100_ETH:-eth-100}
       vlan200_net:
         ipv4_address: ${KA_VLAN200}
-        labels:
+        driver_opts:
           com.docker.network.endpoint.ifname: ${KA_VLAN200_ETH:-eth-200}
       # vlan400_net:
       #   ipv4_address: ${KA_VLAN400}
-      #   labels:
+      #   driver_opts:
       #     com.docker.network.endpoint.ifname: ${KA_VLAN400_ETH:-eth-400}
     cap_add:
       - NET_ADMIN
